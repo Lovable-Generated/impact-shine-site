@@ -52,14 +52,18 @@ export const Header = () => {
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/95 backdrop-blur-md shadow-md"
-          : "bg-transparent"
+          : "bg-gradient-to-b from-black/50 to-transparent"
       }`}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            <div className={`text-2xl font-bold transition-all duration-300 ${
+              isScrolled
+                ? "bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
+                : "text-white"
+            }`}>
               IMPACT VISION
             </div>
           </Link>
@@ -71,9 +75,13 @@ export const Header = () => {
                 key={item.name}
                 to={item.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  location.pathname === item.href
-                    ? "bg-secondary text-secondary-foreground"
-                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                  isScrolled
+                    ? location.pathname === item.href
+                      ? "bg-secondary text-secondary-foreground"
+                      : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                    : location.pathname === item.href
+                      ? "bg-white/20 text-white"
+                      : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {item.name}
@@ -87,7 +95,7 @@ export const Header = () => {
               variant="ghost"
               size="icon"
               onClick={toggleDarkMode}
-              className="hidden lg:flex"
+              className={`hidden lg:flex ${!isScrolled ? "text-white hover:bg-white/10" : ""}`}
               aria-label="Toggle dark mode"
             >
               {isDarkMode ? (
@@ -97,7 +105,7 @@ export const Header = () => {
               )}
             </Button>
 
-            <Button asChild className="hidden lg:inline-flex">
+            <Button asChild className={`hidden lg:inline-flex ${!isScrolled ? "bg-white text-primary hover:bg-white/90" : ""}`}>
               <Link to="/contact">Get Started</Link>
             </Button>
 
@@ -105,7 +113,7 @@ export const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className={`lg:hidden ${!isScrolled ? "text-white hover:bg-white/10" : ""}`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle mobile menu"
             >
